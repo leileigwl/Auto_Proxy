@@ -1,0 +1,28 @@
+#步骤： 使用ubuntu ，切换分支， 配置python，运行core。提交到fastgit
+# on 触发条件->push、 分支 branches: master
+# jobs: deploy -> runson
+# steps
+name: Scheduled Task
+on:
+  schedule:
+    - cron: "*/30 * * * *" # 每 30 分钟触发一次
+
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout actions
+        uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: 输出路径 进入路径
+        run: |
+          pwd
+          cd auto_proxy
+      - name: 安装依赖
+        run: pip install -r requirements.txt # 替换为您的依赖安装命令
+
+      - name: 运行脚本
+        run: python main.py # 替换为您要运行的脚本命令
