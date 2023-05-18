@@ -18,7 +18,7 @@ jobs:
       - name: 输出路径 进入路径
         run: |
           pwd
-          cd auto_proxy
+          cd Auto_Proxy
       - name: 安装依赖
         run: pip install -r requirements.txt # 替换为您的依赖安装命令
 
