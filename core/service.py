@@ -51,7 +51,6 @@ class ProxyList:
                 raw_content = base64_decode(content)
                 self.origin_lst.extend(list(filter(lambda x: x.strip(), raw_content.split('\n'))))
                 # result_list.append(self.oty.func_origin_to_yml(raw_content))
-            logger.info(f'获取节点成功 {my_item}')
         return self.origin_lst
 
     def parse_origin_to_yml(self):
