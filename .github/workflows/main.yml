@@ -15,11 +15,27 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: 输出路径 进入路径
-        run: |
-          pwd
-          ls
+      - name: 加载缓存
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/run_in_Actions/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: 安装依赖
         run: pip install -r requirements.txt # 替换为您的依赖安装命令
       - name: 运行脚本
         run: python main.py # 替换为您要运行的脚本命令
+      - name: 输出路径 进入路径
+        run: |
+          pwd
+          ls
+      - name: 添加更改
+        run: git add .
+      - name: 提交更改
+        run: git commit -m "add new feature"
+      - name: 推送更改
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.TOKEN }}
