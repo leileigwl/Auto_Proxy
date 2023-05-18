@@ -92,8 +92,19 @@ class ToOrigin:
 
     def parse_ss(self, content):
         raw_content = str(content['cipher']) + ':' + str(content['password']) + '@' + str(
-            content['server']) + ':' + str(
-            content['port'])
+            content['server']) + ':' + str(content['port'])
+        if 'plugin' in content:
+            if content['plugin'] == 'obfs':
+                raw_content += '/?plugin=obfs-local;'
+                if 'mode' in content['plugin-opts']:
+                    raw_content += 'obfs=' + content['plugin-opts']['mode'] + ';'
+                if 'host' in content['plugin-opts']:
+                    raw_content += 'obfs-host=' + content['plugin-opts']['host'] + ';'
+            elif content['plugin'] == 'v2ray-plugin':  # 暂时就跳过了
+                pass
+            else:
+                pass
+            pass
         encode_content = base64_encode(raw_content)
         result_node = str('ss://' + encode_content + '#' + str(urllib.parse.quote(content['name'])))
         return result_node
@@ -164,13 +175,43 @@ class ToYaml:
             ss_info = base64_decode(ss_index_list[0]) + ":" + ss_index_list[1]
         else:
             ss_info = base64_decode(content_list[0])
-        ss_info_list = ss_info.split(':')
+        ss_total_list = urllib.parse.unquote(ss_info).split('/?')
+        ss_info_list = ss_total_list[0].split(':')
         result_node['name'] = urllib.parse.unquote(content_list[1]).replace('\r', '').replace(' ', '') + get_random()
         result_node['server'] = ss_info_list[2]
         result_node['port'] = ss_info_list[-1]
         result_node['type'] = 'ss'
         result_node['cipher'] = ss_info_list[0]
         result_node['password'] = ss_info_list[1]
+        if 'plugin' in ss_total_list[-1]:
+            result_node['plugin-opts'] = {}
+            if 'obfs-local' in ss_total_list[-1]:
+                result_node['plugin'] = 'obfs'
+                opts_parts = ss_total_list[-1].split(";")
+                plugin_opts = {}
+                for part in opts_parts:
+                    key_value = part.split("=")
+                    if len(key_value) == 2:
+                        plugin_opts[key_value[0]] = key_value[1]
+                result_node['plugin-opts']['mode'] = plugin_opts['obfs'] if 'obfs' in plugin_opts else ''
+                result_node['plugin-opts']['host'] = plugin_opts['obfs-host'] if 'obfs-host' in plugin_opts else ''
+            if 'v2ray-plugin' in ss_total_list[-1]:
+                result_node['plugin'] = 'v2ray-plugin'
+                opts_parts = ss_total_list[-1].split(";")
+                plugin_opts = {}
+                for part in opts_parts:
+                    key_value = part.split("=")
+                    if len(key_value) == 2:
+                        plugin_opts[key_value[0]] = key_value[1]
+                result_node['plugin-opts']['mode'] = plugin_opts['mode'] if 'mode' in plugin_opts else ''
+                result_node['plugin-opts']['host'] = plugin_opts['host'] if 'host' in plugin_opts else ''
+                result_node['plugin-opts']['path'] = plugin_opts['path'] if 'path' in plugin_opts else ''
+                if 'tls' in plugin_opts:
+                    result_node['plugin-opts']['tls'] = plugin_opts['tls']
+                if 'mux' in plugin_opts:
+                    result_node['plugin-opts']['mux'] = plugin_opts['mux']
+                pass
+
         result_node['udp'] = True
         result_str = json.dumps(result_node, ensure_ascii=False, sort_keys=False)
         return result_str

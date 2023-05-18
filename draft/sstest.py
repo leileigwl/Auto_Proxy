@@ -1,33 +1,31 @@
+import json
 import base64
 
-ssr_url = "ssr://YWVzLTEyOC1jZmI6UWF6RWRjVGdiMTU5QCQq@14.29.124.168:24003#%E4%B8%AD%E5%9B%BD-311.5KB%2Fs%28Youtube%3A%E4%B8%8D%E8%89%AF%E6%9E%97%29"
-ssr_info = ssr_url[6:]  # 去掉链接头的"ssr://"
+# SS节点信息，包括加密的密码和加密方式
+ss_node = "ss://YWVzLTI1Ni1nY206d3p2MjB2b2w="
+ss_node_parts = ss_node.split("://")[1].split(":")
+ss_password = base64.urlsafe_b64decode(ss_node_parts[1] + "=" * (-len(ss_node_parts[1]) % 4))
+ss_method = ss_node_parts[0]
 
-# 解码并解析SSR参数
-info = base64.urlsafe_b64decode(ssr_info + '=' * (4 - len(ssr_info) % 4)).decode()
-params = info.split(":")
-server_params = params[0].split("/")
-server_addr = server_params[0]
-server_port = server_params[1]
-protocol = params[1]
-method = params[2]
-obfs_params = params[3].split("/")
-obfs = obfs_params[0]
-base64_pwd = obfs_params[1]
+# 解析插件参数
+plugin_opts = {"mode": "", "host": ""}
+plugin_opts_str = getUrlArg(ss_node_parts[4], "plugin-opts")
+if plugin_opts_str:
+    plugin_opts_str = base64.urlsafe_b64decode(plugin_opts_str + "=" * (-len(plugin_opts_str) % 4)).decode()
+    plugin_opts_parts = plugin_opts_str.split(";")
+    for part in plugin_opts_parts:
+        if part.startswith("obfs="):
+            plugin_opts["mode"] = part[5:]
+        elif part.startswith("obfs-host="):
+            plugin_opts["host"] = part[10:]
 
-# 将密码和其他参数解码
-pwd = base64.urlsafe_b64decode(base64_pwd + '=' * (4 - len(base64_pwd) % 4)).decode('utf-8')
-remark = base64.urlsafe_b64decode(params[5] + '=' * (4 - len(params[5]) % 4)).decode('utf-8')
-
-# 构造输出字典
-output_dict = {
-    'host': server_addr,
-    'port': server_port,
-    'password': pwd,
-    'protocol': protocol,
-    'method': method,
-    'obfs': obfs,
-    'remark': remark
+# 构建SS节点信息的JSON对象
+ss_info = {
+    "method": ss_method,
+    "password": ss_password.decode(),
+    "plugin": "obfs",
+    "plugin-opts": plugin_opts
 }
 
-print(output_dict)
+# 输出解析后的结果
+print(json.dumps(ss_info, indent=4))
