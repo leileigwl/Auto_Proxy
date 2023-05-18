@@ -33,8 +33,8 @@ jobs:
       - name: 设置git
         run: |
           git config core.ignorecase false
-          git config --local user.email "${secrets.GIT_EMAIL}"
-          git config --local user.name "${secrets.GIT_NAME}"
+          git config --local user.email "${{secrets.GIT_EMAIL}}"
+          git config --local user.name "${{secrets.GIT_NAME}}"
 
       - name: 添加更改
         run: git add .
