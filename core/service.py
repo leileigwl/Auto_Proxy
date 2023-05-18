@@ -1,10 +1,16 @@
 import json
+import random
 from datetime import datetime, timedelta
-from utils.urltools import GetUrl
+
+from utils.BaseEncode import base64_decode
 from utils.Converter import ToYaml, ToOrigin
-from utils.BaseEncode import base64_decode, base64_encode
-from loguru import logger
 from concurrent import futures
+
+from utils.urltools import GetUrl
+
+
+def get_random():
+    return '_' + str(random.randint(11, 71))
 
 
 class ProxyList:
@@ -70,9 +76,9 @@ class ProxyList:
         self.yml_lst = set(self.yml_lst)
         for yml_res_item in self.yml_lst:
             if yml_res_item:
-                proxy_node_name = 'leilei' if not json.loads(yml_res_item)['name'] else json.loads(yml_res_item)['name']
-                if '[' in proxy_node_name or ']' in proxy_node_name:
-                    continue
+                proxy_node_name = 'leilei' + get_random() if not json.loads(yml_res_item)['name'] else \
+                json.loads(yml_res_item)[
+                    'name'].replace('(Youtube:不良林)', '')
                 proxy_nodes.append(yml_res_item)
                 proxy_nodes_name.append(proxy_node_name)
         with open('core/rules.txt', 'r', encoding='utf8') as f:
