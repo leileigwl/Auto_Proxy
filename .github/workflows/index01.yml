@@ -2,9 +2,7 @@ name: Action Practice
 
 on:
   schedule:
-    - cron: "*/30 * * * *" # 每 30 分钟触发一次
-  push:
-
+    - cron: "0 8 * * *"
 jobs:
   my-job:
     runs-on: ubuntu-latest
@@ -40,7 +38,7 @@ jobs:
           rm tel/confg.py
       - name: 输出路径 进入路径
         run: |
-          cd ..
+          echo
       - name: 设置git
         run: |
           git config core.ignorecase false

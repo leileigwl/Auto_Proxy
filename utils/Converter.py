@@ -232,7 +232,7 @@ class ToYaml:
 # parse_yml(ctxx)
 
 if __name__ == '__main__':
-    # with open('tem.yml', 'r', encoding='utf-8') as f:  # yaml to vmess测试
+    # with open('draft.yml', 'r', encoding='utf-8') as f:  # yaml to vmess测试
     #     ctx = f.read()
     # # print(ctx)
     # yto = ToOrigin()
