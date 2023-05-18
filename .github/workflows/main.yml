@@ -21,6 +21,5 @@ jobs:
           ls
       - name: 安装依赖
         run: pip install -r requirements.txt # 替换为您的依赖安装命令
-
       - name: 运行脚本
         run: python main.py # 替换为您要运行的脚本命令

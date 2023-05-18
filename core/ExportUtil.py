@@ -98,7 +98,8 @@ class ExportCore():
 
     def save_origin(self):
         with open('result.txt', 'w', encoding='utf8') as f:
-            f.write(self.myproxy.origin_lst)
+            for origin_lst_item in self.myproxy.origin_lst:
+                f.write(origin_lst_item + '\n')
 
 
 def test2():  # 离线测试
