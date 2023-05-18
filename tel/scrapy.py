@@ -1,5 +1,5 @@
 from telethon import TelegramClient, events
-import config
+from tel import config
 import logging
 
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
@@ -28,5 +28,3 @@ class Tel_Proxy():
 
     async def get(self):
         client.loop.run_until_complete(self.main())
-
-
