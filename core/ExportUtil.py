@@ -1,5 +1,6 @@
 from jinja2 import Template
 from core.service import ProxyList
+import os
 
 epxort_str = '''port: 7890
 socks-port: 7891
@@ -87,17 +88,20 @@ class ExportCore():
     def __init__(self):
         self.myproxy = ProxyList()
         self.myproxy.get_origin_lst()
+        self.location = f'proxies/{self.myproxy.mydate_today}'
+        if not os.path.exists(self.location):
+            os.makedirs(self.location)
 
     def save_yml(self):
         template = Template(epxort_str)
         self.myproxy.parse_origin_to_yml()
         proxy_nodes_name, proxy_nodes, export_rules = self.myproxy.generate_yml()
         out = template.render(proxy_nodes=proxy_nodes, proxy_nodes_name=proxy_nodes_name, export_rules=export_rules)
-        with open(f'proxies/{self.myproxy.mydate_today}/{self.myproxy.mydate_today}.yaml', 'w', encoding='utf8') as f:
+        with open(f'{self.location}/{self.myproxy.mydate_today}.yaml', 'w', encoding='utf8') as f:
             f.write(out)
 
     def save_origin(self):
-        with open(f'proxies/{self.myproxy.mydate_today}/{self.myproxy.mydate_today}.txt', 'w', encoding='utf8') as f:
+        with open(f'{self.location}/{self.myproxy.mydate_today}.txt', 'w', encoding='utf8') as f:
             for origin_lst_item in self.myproxy.origin_lst:
                 f.write(origin_lst_item + '\n')
 
