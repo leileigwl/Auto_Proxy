@@ -25,7 +25,7 @@ class ProxyList:
         pass
 
     def get_origin_lst(self):
-        with open('core/linkurls.txt', 'r', encoding='utf8') as f:
+        with open('linkurls.txt', 'r', encoding='utf8') as f:
             content = f.read()
         content_list = content.split('\n')
         self.origin_lst = []
