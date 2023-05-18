@@ -33,7 +33,6 @@ jobs:
       - name: 删除List
         run: |
           rm linkurls.txt
-          rm tel/confg.py
       - name: 输出路径 进入路径
         run: |
           echo
