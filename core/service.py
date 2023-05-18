@@ -10,6 +10,7 @@ from concurrent import futures
 class ProxyList:
     def __init__(self):
         self.mydate_now = datetime.now()
+        self.mydate_today = self.mydate_now.strftime('%m%d')
         self.mydate = (self.mydate_now - timedelta(days=1)).strftime('%m%d')
         self.mydate_year = self.mydate_now.strftime('%Y')
         self.mydate_month = self.mydate_now.strftime('%m')

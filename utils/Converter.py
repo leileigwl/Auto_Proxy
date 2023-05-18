@@ -5,7 +5,11 @@ import re
 import urllib.parse
 import yaml
 from utils.BaseEncode import base64_decode, base64_encode
-import uuid
+import random
+
+
+def get_random():
+    return '_' + str(random.randint(11, 71))
 
 
 class ToOrigin:
@@ -120,7 +124,7 @@ class ToYaml:
     def to_vmess(self, content):  # 将vmess节点转化成clash
         result_node = {}
         content = json.loads(base64_decode(content))
-        result_node['name'] = urllib.parse.unquote(content['ps']).replace('\r', '').replace(' ', '') + str(uuid.uuid1())
+        result_node['name'] = urllib.parse.unquote(content['ps']).replace('\r', '').replace(' ', '') + get_random()
         result_node['server'] = content['add']
         result_node['port'] = content['port']
         result_node['type'] = 'vmess'
@@ -161,8 +165,7 @@ class ToYaml:
         else:
             ss_info = base64_decode(content_list[0])
         ss_info_list = ss_info.split(':')
-        result_node['name'] = urllib.parse.unquote(content_list[1]).replace('\r', '').replace(' ', '') + str(
-            uuid.uuid1())
+        result_node['name'] = urllib.parse.unquote(content_list[1]).replace('\r', '').replace(' ', '') + get_random()
         result_node['server'] = ss_info_list[2]
         result_node['port'] = ss_info_list[-1]
         result_node['type'] = 'ss'
@@ -179,8 +182,7 @@ class ToYaml:
     def to_trojan(self, content):
         result_node = {}
         content_lst = content.split('#')
-        result_node['name'] = urllib.parse.unquote(content_lst[1]).replace('\r', '').replace(' ', '') + str(
-            uuid.uuid1())
+        result_node['name'] = urllib.parse.unquote(content_lst[1]).replace('\r', '').replace(' ', '') + get_random()
         trojan_info_list = re.split(r':|@|\?', content_lst[0])
         result_node['server'] = trojan_info_list[1]
         result_node['port'] = trojan_info_list[2]
