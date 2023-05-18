@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Template</title>
+</head>
+<body>
+    <h1>{{ data_dict.name }}'s Profile</h1>
+    <p>Age: {{ data_dict.age }}</p>
+    <p>Hobbies:</p>
+    <ul>
+        {% for hobby in data_dict.hobbies %}
+            <li>{{ hobby }}</li>
+        {% endfor %}
+    </ul>
+    <p>Address:</p>
+    <p>{{ data_dict.address.street }}</p>
+    <p>{{ data_dict.address.city }}, {{ data_dict.address.state }} {{ data_dict.address.zip }}</p>
+</body>
+</html>
