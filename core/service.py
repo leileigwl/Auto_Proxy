@@ -67,6 +67,7 @@ class ProxyList:
     def generate_yml(self):
         proxy_nodes_name = []
         proxy_nodes = []
+        self.yml_lst = set(self.yml_lst)
         for yml_res_item in self.yml_lst:
             if yml_res_item:
                 proxy_node_name = 'leilei' if not json.loads(yml_res_item)['name'] else json.loads(yml_res_item)['name']

@@ -1,7 +1,18 @@
 import json
 
 text = '''
-- {name: _23, server: 170.187.134.190, port: 8443, type: trojan, password: cf4295378e209e70d12c5bdd017144dfd1c772d3, sni: 170-187-134-190.ipv4.rush.ml, skip-cert-verify: true, udp: true} 
+{
+  name: 🇩🇪 德国-3.18MB/s(Youtube:不良林) 2,
+  server: 217.79.184.18,
+  port: 443,
+  type: trojan,
+  password: 27af95ea-e457-4bc9-9e36-8042ae657f4e,
+  sni: download.xn--mes358a9urctx.com,
+  skip-cert-verify: true,
+  udp: true
+}
+
+
 '''
 
 
