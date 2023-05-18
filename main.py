@@ -1,5 +1,4 @@
 from core.ExportUtil import ExportCore
-from tel import config
 from tel.scrapy import Tel_Proxy
 
 if __name__ == '__main__':
