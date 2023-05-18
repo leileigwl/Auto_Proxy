@@ -8,7 +8,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 api_id = config.api_id
 api_hash = config.api_hash
 user_id = config.user_id
-client = TelegramClient('anon', api_id, api_hash)
+client = TelegramClient('tel/anon.session', api_id, api_hash)
 
 
 class Tel_Proxy():
