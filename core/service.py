@@ -73,14 +73,18 @@ class ProxyList:
     def generate_yml(self):
         proxy_nodes_name = []
         proxy_nodes = []
+        proxy_nodes_name_lst = []
         self.yml_lst = set(self.yml_lst)
         for yml_res_item in self.yml_lst:
             if yml_res_item:
                 proxy_node_name = 'leilei' + get_random() if not json.loads(yml_res_item)['name'] else \
-                json.loads(yml_res_item)[
-                    'name'].replace('(Youtube:不良林)', '')
-                proxy_nodes.append(yml_res_item)
-                proxy_nodes_name.append(proxy_node_name)
+                    json.loads(yml_res_item)['name'].replace('(Youtube:不良林)', '')
+                if proxy_node_name in proxy_nodes_name_lst:
+                    continue
+                else:
+                    proxy_nodes_name_lst.append(proxy_node_name)
+                    proxy_nodes.append(yml_res_item)
+                    proxy_nodes_name.append(proxy_node_name)
         with open('core/rules.txt', 'r', encoding='utf8') as f:
             export_rules = f.read()
         return proxy_nodes_name, proxy_nodes, export_rules

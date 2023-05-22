@@ -135,7 +135,8 @@ class ToYaml:
     def to_vmess(self, content):  # 将vmess节点转化成clash
         result_node = {}
         content = json.loads(base64_decode(content))
-        result_node['name'] = urllib.parse.unquote(content['ps']).replace('\r', '').replace(' ', '') + get_random()
+        result_node['name'] = urllib.parse.unquote(content['ps']).replace('\r', '').replace(' ', '').replace(
+            '(Youtube:不良林)', '') + get_random()
         result_node['server'] = content['add']
         result_node['port'] = content['port']
         result_node['type'] = 'vmess'
@@ -177,7 +178,8 @@ class ToYaml:
             ss_info = base64_decode(content_list[0])
         ss_total_list = urllib.parse.unquote(ss_info).split('/?')
         ss_info_list = ss_total_list[0].split(':')
-        result_node['name'] = urllib.parse.unquote(content_list[1]).replace('\r', '').replace(' ', '') + get_random()
+        result_node['name'] = urllib.parse.unquote(content_list[1]).replace('\r', '').replace(' ', '').replace(
+            '(Youtube:不良林)', '') + get_random()
         result_node['server'] = ss_info_list[2]
         result_node['port'] = ss_info_list[-1]
         result_node['type'] = 'ss'
@@ -209,13 +211,10 @@ class ToYaml:
                 if 'tls' in plugin_opts:
                     result_node['plugin-opts']['tls'] = plugin_opts['tls']
                 if 'mux' in plugin_opts:
-                    result_node['plugin-opts']['mux'] = plugin_opts['mux']
+                    result_node['plugin-opts']['mux'] = True
                 pass
-
-        result_node['udp'] = True
-        result_str = json.dumps(result_node, ensure_ascii=False, sort_keys=False)
+        result_str = json.dumps(result_node, sort_keys=False, ensure_ascii=False)
         return result_str
-        pass
 
     def to_ssr(self, content):
         pass
@@ -223,7 +222,8 @@ class ToYaml:
     def to_trojan(self, content):
         result_node = {}
         content_lst = content.split('#')
-        result_node['name'] = urllib.parse.unquote(content_lst[1]).replace('\r', '').replace(' ', '') + get_random()
+        result_node['name'] = urllib.parse.unquote(content_lst[1]).replace('\r', '').replace(' ', '').replace(
+            '(Youtube:不良林)', '') + get_random()
         trojan_info_list = re.split(r':|@|\?', content_lst[0])
         result_node['server'] = trojan_info_list[1]
         result_node['port'] = trojan_info_list[2]
